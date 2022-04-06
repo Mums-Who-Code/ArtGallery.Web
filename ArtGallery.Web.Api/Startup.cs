@@ -2,6 +2,10 @@
 // Copyright (c) MumsWhoCode. All rights reserved.
 // -----------------------------------------------------------------------
 
+using ArtGallery.Web.Api.Brokers.API;
+using ArtGallery.Web.Api.Models.Configurations;
+using RESTFulSense.Clients;
+
 namespace ArtGallery.Web.Api
 {
     public class Startup
@@ -13,9 +17,9 @@ namespace ArtGallery.Web.Api
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-
-            services.AddRazorPages(options =>
-                options.RootDirectory = "/Views/Pages");
+            AddHttpClient(services);
+            AddRootDirectory(services);
+            services.AddScoped<IApiBroker, ApiBroker>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -38,6 +42,22 @@ namespace ArtGallery.Web.Api
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
+            });
+        }
+
+        private static void AddRootDirectory(IServiceCollection services)
+        {
+            services.AddRazorPages(options =>
+                options.RootDirectory = "/Views/Pages");
+        }
+
+        private void AddHttpClient(IServiceCollection services)
+        {
+            services.AddHttpClient<IRESTFulApiFactoryClient, RESTFulApiFactoryClient>(Client =>
+            {
+                LocalConfigurations localConfigurations = Configuration.Get<LocalConfigurations>();
+                String apiUrl = localConfigurations.ApiConfigurations.Url;
+                Client.BaseAddress = new Uri(apiUrl);
             });
         }
     }
