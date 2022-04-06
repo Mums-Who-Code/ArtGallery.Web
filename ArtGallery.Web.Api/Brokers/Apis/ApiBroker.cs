@@ -4,7 +4,7 @@
 
 using RESTFulSense.Clients;
 
-namespace ArtGallery.Web.Api.Brokers.API
+namespace ArtGallery.Web.Api.Brokers.Apis
 {
     public class ApiBroker : IApiBroker
     {
