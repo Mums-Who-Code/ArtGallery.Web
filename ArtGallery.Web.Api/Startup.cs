@@ -56,7 +56,7 @@ namespace ArtGallery.Web.Api
             services.AddHttpClient<IRESTFulApiFactoryClient, RESTFulApiFactoryClient>(Client =>
             {
                 LocalConfigurations localConfigurations = Configuration.Get<LocalConfigurations>();
-                String apiUrl = localConfigurations.ApiConfigurations.Url;
+                string apiUrl = localConfigurations.ApiConfigurations.Url;
                 Client.BaseAddress = new Uri(apiUrl);
             });
         }

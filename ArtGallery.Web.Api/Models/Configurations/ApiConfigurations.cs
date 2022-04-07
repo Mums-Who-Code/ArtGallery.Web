@@ -6,6 +6,6 @@ namespace ArtGallery.Web.Api.Models.Configurations
 {
     public class ApiConfigurations
     {
-        public String Url { get; set; }
+        public string Url { get; set; }
     }
 }
