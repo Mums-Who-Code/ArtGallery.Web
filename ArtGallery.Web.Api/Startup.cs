@@ -2,6 +2,11 @@
 // Copyright (c) MumsWhoCode. All rights reserved.
 // -----------------------------------------------------------------------
 
+using ArtGallery.Web.Api.Brokers.Apis;
+using ArtGallery.Web.Api.Brokers.DateTimes;
+using ArtGallery.Web.Api.Models.Configurations;
+using RESTFulSense.Clients;
+
 namespace ArtGallery.Web.Api
 {
     public class Startup
@@ -13,6 +18,10 @@ namespace ArtGallery.Web.Api
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            AddHttpClient(services);
+            AddRootDirectory(services);
+            services.AddScoped<IApiBroker, ApiBroker>();
+            services.AddTransient<IDateTimeBroker, DateTimeBroker>();
 
             services.AddRazorPages(options =>
                 options.RootDirectory = "/Views/Pages");
