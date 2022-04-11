@@ -3,6 +3,7 @@
 // -----------------------------------------------------------------------
 
 using ArtGallery.Web.Api.Brokers.DateTimes;
+using ArtGallery.Web.Api.Brokers.Navigations;
 
 namespace ArtGallery.Web.Api
 {
@@ -15,10 +16,9 @@ namespace ArtGallery.Web.Api
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddTransient<IDateTimeBroker, DateTimeBroker>();
-
-            services.AddRazorPages(options =>
-                options.RootDirectory = "/Views/Pages");
+            AddRootDirectory(services);
+            services.AddScoped<IDateTimeBroker, DateTimeBroker>();
+            services.AddScoped<INavigationBroker, NavigationBroker>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,6 +42,12 @@ namespace ArtGallery.Web.Api
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+        }
+
+        private static void AddRootDirectory(IServiceCollection services)
+        {
+            services.AddRazorPages(options =>
+                options.RootDirectory = "/Views/Pages");
         }
     }
 }
