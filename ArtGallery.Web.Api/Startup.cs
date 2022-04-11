@@ -4,8 +4,6 @@
 
 using ArtGallery.Web.Api.Brokers.Apis;
 using ArtGallery.Web.Api.Brokers.DateTimes;
-using ArtGallery.Web.Api.Models.Configurations;
-using RESTFulSense.Clients;
 
 namespace ArtGallery.Web.Api
 {
@@ -18,7 +16,6 @@ namespace ArtGallery.Web.Api
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            AddHttpClient(services);
             AddRootDirectory(services);
             services.AddScoped<IApiBroker, ApiBroker>();
             services.AddTransient<IDateTimeBroker, DateTimeBroker>();
@@ -54,16 +51,6 @@ namespace ArtGallery.Web.Api
         {
             services.AddRazorPages(options =>
                 options.RootDirectory = "/Views/Pages");
-        }
-
-        private void AddHttpClient(IServiceCollection services)
-        {
-            services.AddHttpClient<IRESTFulApiFactoryClient, RESTFulApiFactoryClient>(Client =>
-            {
-                LocalConfigurations localConfigurations = Configuration.Get<LocalConfigurations>();
-                string apiUrl = localConfigurations.ApiConfigurations.Url;
-                Client.BaseAddress = new Uri(apiUrl);
-            });
         }
     }
 }
