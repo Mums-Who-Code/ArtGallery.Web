@@ -2,6 +2,7 @@
 // Copyright (c) MumsWhoCode. All rights reserved.
 // -----------------------------------------------------------------------
 
+using ArtGallery.Web.Api.Models.Configurations;
 using RESTFulSense.Clients;
 
 namespace ArtGallery.Web.Api.Brokers.Apis
@@ -9,9 +10,14 @@ namespace ArtGallery.Web.Api.Brokers.Apis
     public class ApiBroker : IApiBroker
     {
         private readonly IRESTFulApiFactoryClient apiClient;
+        private readonly HttpClient httpClient;
 
-        public ApiBroker(IRESTFulApiFactoryClient apiClient) =>
-            this.apiClient = apiClient;
+        public ApiBroker(HttpClient httpClient,
+            IConfiguration configuration)
+        {
+            this.httpClient = httpClient;
+            this.apiClient = GetApiClient(configuration);
+        }
 
         private async ValueTask<T> GetAsync<T>(String relativeUrl) =>
             await this.apiClient.GetContentAsync<T>(relativeUrl);
@@ -24,5 +30,16 @@ namespace ArtGallery.Web.Api.Brokers.Apis
 
         private async ValueTask DeleteAsync<T>(String relativeUrl) =>
             await this.apiClient.DeleteContentAsync<T>(relativeUrl);
+
+        private IRESTFulApiFactoryClient GetApiClient(IConfiguration configuration)
+        {
+            LocalConfigurations localConfigurations =
+               configuration.Get<LocalConfigurations>();
+
+            string apiBaseUrl = localConfigurations.ApiConfigurations.Url;
+            this.httpClient.BaseAddress = new Uri(apiBaseUrl);
+
+            return new RESTFulApiFactoryClient(this.httpClient);
+        }
     }
 }
