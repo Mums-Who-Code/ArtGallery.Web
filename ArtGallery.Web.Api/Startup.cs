@@ -19,9 +19,6 @@ namespace ArtGallery.Web.Api
             AddRootDirectory(services);
             services.AddScoped<IApiBroker, ApiBroker>();
             services.AddTransient<IDateTimeBroker, DateTimeBroker>();
-
-            services.AddRazorPages(options =>
-                options.RootDirectory = "/Views/Pages");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
