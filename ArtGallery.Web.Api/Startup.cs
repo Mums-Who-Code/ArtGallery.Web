@@ -16,9 +16,9 @@ namespace ArtGallery.Web.Api
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            AddRootDirectory(services);
             services.AddScoped<IDateTimeBroker, DateTimeBroker>();
             services.AddScoped<INavigationBroker, NavigationBroker>();
+            AddRootDirectory(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
