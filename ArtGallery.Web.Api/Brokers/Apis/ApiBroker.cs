@@ -12,7 +12,8 @@ namespace ArtGallery.Web.Api.Brokers.Apis
         private readonly IRESTFulApiFactoryClient apiClient;
         private readonly HttpClient httpClient;
 
-        public ApiBroker(HttpClient httpClient,
+        public ApiBroker(
+            HttpClient httpClient,
             IConfiguration configuration)
         {
             this.httpClient = httpClient;
