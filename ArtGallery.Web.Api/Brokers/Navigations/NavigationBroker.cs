@@ -13,7 +13,7 @@ namespace ArtGallery.Web.Api.Brokers.Navigations
         public NavigationBroker(NavigationManager navigationManager) =>
             this.navigationManager = navigationManager;
 
-        public void NavigateTo(String route) =>
+        public void NavigateTo(string route) =>
             this.navigationManager.NavigateTo(route);
     }
 }
