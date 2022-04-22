@@ -4,12 +4,13 @@
 
 using ArtGallery.Web.Api.Brokers.Apis;
 using ArtGallery.Web.Api.Brokers.DateTimes;
+using ArtGallery.Web.Api.Brokers.Navigations;
 
 namespace ArtGallery.Web.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration) => 
+        public Startup(IConfiguration configuration) =>
             Configuration = configuration;
 
         public IConfiguration Configuration { get; }
@@ -54,6 +55,7 @@ namespace ArtGallery.Web.Api
         private static void AddBrokers(IServiceCollection services)
         {
             services.AddScoped<IApiBroker, ApiBroker>();
+            services.AddScoped<INavigationBroker, NavigationBroker>();
             services.AddTransient<IDateTimeBroker, DateTimeBroker>();
         }
     }
