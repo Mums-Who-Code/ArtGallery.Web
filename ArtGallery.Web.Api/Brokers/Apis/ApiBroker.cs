@@ -7,7 +7,7 @@ using RESTFulSense.Clients;
 
 namespace ArtGallery.Web.Api.Brokers.Apis
 {
-    public class ApiBroker : IApiBroker
+    public partial class ApiBroker : IApiBroker
     {
         private readonly IRESTFulApiFactoryClient apiClient;
         private readonly HttpClient httpClient;
