@@ -2,9 +2,11 @@
 // Copyright (c) MumsWhoCode. All rights reserved.
 // -----------------------------------------------------------------------
 
-namespace ArtGallery.Web.Api.Brokers.Apis
+namespace ArtGallery.Web.Api.Models.Foundations.Artists
 {
-    public partial interface IApiBroker
+    public enum ArtistStatus
     {
+        Active,
+        InActive
     }
 }
