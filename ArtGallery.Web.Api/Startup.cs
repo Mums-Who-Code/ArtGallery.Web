@@ -4,6 +4,7 @@
 
 using ArtGallery.Web.Api.Brokers.Apis;
 using ArtGallery.Web.Api.Brokers.DateTimes;
+using ArtGallery.Web.Api.Brokers.Loggings;
 using ArtGallery.Web.Api.Brokers.Navigations;
 
 namespace ArtGallery.Web.Api
@@ -56,6 +57,7 @@ namespace ArtGallery.Web.Api
         {
             services.AddScoped<IApiBroker, ApiBroker>();
             services.AddScoped<INavigationBroker, NavigationBroker>();
+            services.AddScoped<ILoggingBroker, LoggingBroker>();
             services.AddTransient<IDateTimeBroker, DateTimeBroker>();
         }
     }
