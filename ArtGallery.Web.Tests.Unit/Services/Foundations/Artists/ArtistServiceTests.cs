@@ -2,12 +2,14 @@
 // Copyright (c) MumsWhoCode. All rights reserved.
 // -----------------------------------------------------------------------
 
+using System.Linq.Expressions;
 using ArtGallery.Web.Api.Brokers.Apis;
 using ArtGallery.Web.Api.Brokers.Loggings;
 using ArtGallery.Web.Api.Models.Foundations.Artists;
 using ArtGallery.Web.Api.Models.Services.Foundations.Artists;
 using Moq;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
 {
@@ -25,6 +27,14 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             this.artistService = new ArtistService(
                 this.apiBrokerMock.Object,
                 this.loggingBrokerMock.Object);
+        }
+
+        private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedExeption)
+        {
+            return actualException =>
+                actualException.Message == expectedExeption.Message
+                && actualException.InnerException.Message == expectedExeption.InnerException.Message
+                && (actualException.InnerException as Xeption).DataEquals(expectedExeption.InnerException.Data);
         }
 
         public static Artist CreateRandomArtist() =>
