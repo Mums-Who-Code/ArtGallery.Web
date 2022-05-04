@@ -75,7 +75,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
 
             this.apiBrokerMock.Verify(broker =>
                 broker.PostArtistAsync(It.IsAny<Artist>()),
-                    Times.Once);
+                    Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.apiBrokerMock.VerifyNoOtherCalls();
