@@ -21,9 +21,7 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<Artist> AddArtistAsync(Artist artist)
-        {
-            throw new NotImplementedException();
-        }
+        public async ValueTask<Artist> AddArtistAsync(Artist artist) =>
+            await this.apiBroker.PostArtistAsync(artist);
     }
 }
