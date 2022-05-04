@@ -22,11 +22,11 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
         }
 
         public ValueTask<Artist> AddArtistAsync(Artist artist) =>
-            TryCatch(async () =>
-            {
-                ValidateArtist(artist);
+        TryCatch(async () =>
+        {
+            ValidateArtist(artist);
 
-                return await this.apiBroker.PostArtistAsync(artist);
-            });
+            return await this.apiBroker.PostArtistAsync(artist);
+        });
     }
 }
