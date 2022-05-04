@@ -15,7 +15,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
         public async Task ShouldThrowValidationExceptionOnAddIfArtistIsNullAndLogItAsync()
         {
             //given
-            Artist nullArtist = CreateRandomArtist();
+            Artist nullArtist = null;
             var nullArtistException = new NullArtistException();
 
             var expectedArtistValidationException =
