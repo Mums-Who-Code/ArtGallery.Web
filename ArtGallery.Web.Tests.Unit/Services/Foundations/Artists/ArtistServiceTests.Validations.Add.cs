@@ -42,5 +42,43 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.apiBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowValidationExceptionOnAddIfArtistIsInvalidAndLogItAsync()
+        {
+            //given
+            Guid invalidID = Guid.Empty;
+            Artist randomArtist = CreateRandomArtist();
+            Artist invalidArtist = randomArtist;
+            invalidArtist.Id = invalidID;
+
+            var invalidArtistException =
+                new InvalidArtistException(
+                    parameterName: nameof(Artist.Id),
+                    parameterValue: invalidArtist.Id);
+
+            var expectedArtistValidationException =
+                new ArtistValidationException(invalidArtistException);
+
+            //when
+            ValueTask<Artist> addArtistTask =
+                this.artistService.AddArtistAsync(invalidArtist);
+
+            //then
+            await Assert.ThrowsAsync<ArtistValidationException>(() =>
+                addArtistTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedArtistValidationException))),
+                        Times.Once);
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostArtistAsync(It.IsAny<Artist>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.apiBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
