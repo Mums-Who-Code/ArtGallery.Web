@@ -43,19 +43,53 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             this.apiBrokerMock.VerifyNoOtherCalls();
         }
 
-        [Fact]
-        public async Task ShouldThrowValidationExceptionOnAddIfArtistIsInvalidAndLogItAsync()
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("  ")]
+        public async Task ShouldThrowValidationExceptionOnAddIfArtistIsInvalidAndLogItAsync(
+             string invalidText)
         {
             //given
-            Guid invalidID = Guid.Empty;
-            Artist randomArtist = CreateRandomArtist();
-            Artist invalidArtist = randomArtist;
-            invalidArtist.Id = invalidID;
+            var invalidArtist = new Artist
+            {
+                FirstName = invalidText,
+                LastName = invalidText,
+                Email = invalidText,
+                ContactNumber = invalidText,
+                Status = ArtistStatus.InActive
+            };
 
-            var invalidArtistException =
-                new InvalidArtistException(
-                    parameterName: nameof(Artist.Id),
-                    parameterValue: invalidArtist.Id);
+            var invalidArtistException = new InvalidArtistException();
+
+            invalidArtistException.AddData(
+                key: nameof(Artist.Id),
+                values: "Id is required.");
+
+            invalidArtistException.AddData(
+                key: nameof(Artist.FirstName),
+                values: "Text is required.");
+
+            invalidArtistException.AddData(
+                key: nameof(Artist.LastName),
+                values: "Text is required.");
+
+            invalidArtistException.AddData(
+                key: nameof(Artist.Email),
+                values: "Text is required.");
+
+            invalidArtistException.AddData(
+                key: nameof(Artist.ContactNumber),
+                values: "Text is required.");
+
+            invalidArtistException.AddData(
+               key: nameof(Artist.CreatedBy),
+               values: "Id is required.");
+
+            invalidArtistException.AddData(
+               key: nameof(Artist.CreatedDate),
+               values: "Date is required.");
+
 
             var expectedArtistValidationException =
                 new ArtistValidationException(invalidArtistException);
