@@ -83,13 +83,16 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
                 values: "Text is required.");
 
             invalidArtistException.AddData(
+                key: nameof(Artist.Status),
+                values: "Value is invalid.");
+
+            invalidArtistException.AddData(
                key: nameof(Artist.CreatedBy),
                values: "Id is required.");
 
             invalidArtistException.AddData(
                key: nameof(Artist.CreatedDate),
                values: "Date is required.");
-
 
             var expectedArtistValidationException =
                 new ArtistValidationException(invalidArtistException);

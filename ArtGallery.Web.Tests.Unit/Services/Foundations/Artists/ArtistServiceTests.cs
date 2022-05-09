@@ -37,6 +37,9 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
                 && (actualException.InnerException as Xeption).DataEquals(expectedExeption.InnerException.Data);
         }
 
+        private static string GetRandomEmail() =>
+          new EmailAddresses().GetValue().ToString();
+
         public static Artist CreateRandomArtist() =>
             CreateArtistFiller().Create();
 
@@ -45,7 +48,8 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             var filler = new Filler<Artist>();
 
             filler.Setup()
-                .OnType<DateTimeOffset>().Use(DateTimeOffset.UtcNow);
+                .OnType<DateTimeOffset>().Use(DateTimeOffset.UtcNow)
+                .OnProperty(artist => artist.Email).Use(GetRandomEmail());
 
             return filler;
         }

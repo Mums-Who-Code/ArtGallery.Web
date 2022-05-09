@@ -4,6 +4,7 @@
 
 using ArtGallery.Web.Api.Models.Foundations.Artists;
 using ArtGallery.Web.Api.Models.Foundations.Artists.Exceptions;
+using Xeptions;
 
 namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
 {
@@ -21,11 +22,15 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
             {
                 throw CreateAndLogValidationException(nullArtistException);
             }
+            catch (InvalidArtistException invalidArtistException)
+            {
+                throw CreateAndLogValidationException(invalidArtistException);
+            }
         }
 
-        private Exception CreateAndLogValidationException(NullArtistException nullArtistException)
+        private ArtistValidationException CreateAndLogValidationException(Xeption exception)
         {
-            var artistValidationException = new ArtistValidationException(nullArtistException);
+            var artistValidationException = new ArtistValidationException(exception);
             this.loggingBroker.LogError(artistValidationException);
 
             return artistValidationException;
