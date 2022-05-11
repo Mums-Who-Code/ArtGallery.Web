@@ -83,8 +83,10 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
         private static Filler<Artist> CreateArtistFiller()
         {
             var filler = new Filler<Artist>();
+            Guid id = Guid.NewGuid();
 
             filler.Setup()
+                .OnType<Guid>().Use(id)
                 .OnType<DateTimeOffset>().Use(DateTimeOffset.UtcNow)
                 .OnProperty(artist => artist.Email).Use(GetRandomEmail());
 

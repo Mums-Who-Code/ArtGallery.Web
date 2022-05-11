@@ -23,7 +23,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
                 new FailedArtistDependencyException(criticalDependencyException);
 
             var expectedArtistDependencyException =
-                new FailedArtistDependencyException(failedArtistDependencyException);
+                new ArtistDependencyException(failedArtistDependencyException);
 
             this.apiBrokerMock.Setup(broker =>
                 broker.PostArtistAsync(It.IsAny<Artist>()))
