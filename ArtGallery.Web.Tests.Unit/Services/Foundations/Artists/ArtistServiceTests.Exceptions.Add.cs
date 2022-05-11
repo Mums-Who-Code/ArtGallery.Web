@@ -13,7 +13,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
     {
         [Theory]
         [MemberData(nameof(CriticalDependencyException))]
-        public async Task ShouldThrowCriticalDependencyExceptionOnAddIfSqlErrorOccursAndLogItAsync(
+        public async Task ShouldThrowCriticalDependencyExceptionOnAddIfDependencyErrorOccursAndLogItAsync(
             Exception criticalDependencyException)
         {
             //given
