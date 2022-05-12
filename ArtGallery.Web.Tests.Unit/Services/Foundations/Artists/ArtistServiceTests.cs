@@ -51,6 +51,28 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             };
         }
 
+        public static TheoryData ApiDependencyExceptions()
+        {
+            var responseMessage = new HttpResponseMessage();
+            String exceptionMessage = GetRandomMesaage();
+
+            var httpResponseException =
+                new HttpResponseException(
+                    httpResponseMessage: responseMessage,
+                    message: exceptionMessage);
+
+            var httpResponseInternalServerErrorException =
+               new HttpResponseInternalServerErrorException(
+                   responseMessage: responseMessage,
+                   message: exceptionMessage);
+
+            return new TheoryData<Exception>
+            {
+                httpResponseException,
+                httpResponseInternalServerErrorException
+            };
+        }
+
         private static string GetRandomMesaage() =>
             new MnemonicString(wordCount: GetRandomNumer()).GetValue();
 
