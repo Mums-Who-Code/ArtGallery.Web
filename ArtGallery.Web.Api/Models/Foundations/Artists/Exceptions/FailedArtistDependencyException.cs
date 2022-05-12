@@ -9,7 +9,7 @@ namespace ArtGallery.Web.Api.Models.Foundations.Artists.Exceptions
     public class FailedArtistDependencyException : Xeption
     {
         public FailedArtistDependencyException(Exception innerException)
-          : base(message: "Failed artist dependency error occured.", innerException)
+          : base(message: "Failed artist dependency error occurred, please contact support.", innerException)
         { }
     }
 }

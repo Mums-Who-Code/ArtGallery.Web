@@ -4,6 +4,7 @@
 
 using ArtGallery.Web.Api.Models.Foundations.Artists;
 using ArtGallery.Web.Api.Models.Foundations.Artists.Exceptions;
+using RESTFulSense.Exceptions;
 using Xeptions;
 
 namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
@@ -26,6 +27,28 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
             {
                 throw CreateAndLogValidationException(invalidArtistException);
             }
+            catch (HttpRequestException httpRequestException)
+            {
+                var failedArtistDependencyException =
+                    new FailedArtistDependencyException(httpRequestException);
+
+                throw CreateAndLogCriticalDependencyException(failedArtistDependencyException);
+            }
+            catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            {
+                var failedArtistDependencyException =
+                    new FailedArtistDependencyException(httpResponseUnauthorizedException);
+
+                throw CreateAndLogCriticalDependencyException(failedArtistDependencyException);
+            }
+        }
+
+        private ArtistDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
+        {
+            var artistDependencyException = new ArtistDependencyException(exception);
+            this.loggingBroker.LogCritical(artistDependencyException);
+
+            return artistDependencyException;
         }
 
         private ArtistValidationException CreateAndLogValidationException(Xeption exception)

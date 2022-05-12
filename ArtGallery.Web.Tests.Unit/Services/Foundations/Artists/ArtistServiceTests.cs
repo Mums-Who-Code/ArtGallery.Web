@@ -39,12 +39,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             var httpResponseMessage = new HttpResponseMessage();
             var httpRequestException = new HttpRequestException();
 
-            var httpResponseUrlNoFoundException =
-                new HttpResponseUrlNotFoundException(
-                    httpResponseMessage,
-                    someMessage);
-
-            var unauthorizedHttpResponseException =
+            var httpResponseUnauthorizedException =
                 new HttpResponseUnauthorizedException(
                     httpResponseMessage,
                     someMessage);
@@ -52,8 +47,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             return new TheoryData<Exception>
             {
                 httpRequestException,
-                httpResponseUrlNoFoundException,
-                unauthorizedHttpResponseException
+                httpResponseUnauthorizedException
             };
         }
 
@@ -88,6 +82,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             filler.Setup()
                 .OnType<Guid>().Use(id)
                 .OnType<DateTimeOffset>().Use(DateTimeOffset.UtcNow)
+                .OnProperty(artist => artist.Status).Use(ArtistStatus.Active)
                 .OnProperty(artist => artist.Email).Use(GetRandomEmail());
 
             return filler;

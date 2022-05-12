@@ -38,13 +38,13 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
                 addArtistTask.AsTask());
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(
+                broker.LogCritical(It.Is(SameExceptionAs(
                     expectedArtistDependencyException))),
-                        Times.Once());
+                        Times.Once);
 
             this.apiBrokerMock.Verify(broker =>
                 broker.PostArtistAsync(It.IsAny<Artist>()),
-                    Times.Once());
+                    Times.Once);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.apiBrokerMock.VerifyNoOtherCalls();
