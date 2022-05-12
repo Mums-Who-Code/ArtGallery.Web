@@ -41,6 +41,21 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
 
                 throw CreateAndLogCriticalDependencyException(failedArtistDependencyException);
             }
+            catch(HttpResponseException httpResponseException)
+            {
+                var failedArtistDependencyException =
+                    new FailedArtistDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedArtistDependencyException);
+            }
+        }
+
+        private ArtistDependencyException CreateAndLogDependencyException(Xeption exception)
+        {
+            var artistDependencyException = new ArtistDependencyException(exception);
+            this.loggingBroker.LogError(artistDependencyException);
+
+            return artistDependencyException;
         }
 
         private ArtistDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
