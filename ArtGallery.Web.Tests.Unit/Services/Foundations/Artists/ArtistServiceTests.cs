@@ -83,15 +83,9 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
                     responseMessage: responseMessage,
                     message: exceptionMessage);
 
-            var httpResponseFailedDependencyException =
-                new HttpResponseFailedDependencyException(
-                    responseMessage: responseMessage,
-                    message: exceptionMessage);
-
             return new TheoryData<Exception>()
             {
-                httpResponseConflictException,
-                httpResponseFailedDependencyException
+                httpResponseConflictException
             };
         }
 

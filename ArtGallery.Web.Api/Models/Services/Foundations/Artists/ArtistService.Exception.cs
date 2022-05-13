@@ -50,6 +50,13 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
 
                 throw CreateAndLogDependencyValidationException(invalidArtistException);
             }
+            catch(HttpResponseConflictException httpResponseConflictException)
+            {
+                var invalidArtistException =
+                    new InvalidArtistException(httpResponseConflictException);
+
+                throw CreateAndLogDependencyValidationException(invalidArtistException);
+            }
             catch (HttpResponseException httpResponseException)
             {
                 var failedArtistDependencyException =
