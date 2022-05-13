@@ -180,5 +180,43 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnAddIfServiceErrorOccursAndLogItAsync()
+        {
+            // given
+            var serviceException = new Exception();
+            Artist someArtist = CreateRandomArtist();
+
+            var failedArtistServiceException =
+                new FailedArtistServiceException(serviceException);
+
+            var expectedArtistServiceException =
+                new ArtistServiceException(failedArtistServiceException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.PostArtistAsync(It.IsAny<Artist>()))
+                    .ThrowsAsync(serviceException);
+
+            // when
+            ValueTask<Artist> addArtistTask =
+                this.artistService.AddArtistAsync(someArtist);
+
+            // then
+            await Assert.ThrowsAsync<ArtistServiceException>(() =>
+                addArtistTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostArtistAsync(It.IsAny<Artist>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedArtistServiceException))),
+                        Times.Once);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.apiBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
