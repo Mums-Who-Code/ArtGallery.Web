@@ -73,6 +73,9 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             };
         }
 
+        private static Dictionary<string, List<string>> CreateRandomDictionary() =>
+            new Filler<Dictionary<string, List<string>>>().Create();
+
         private static string GetRandomMesaage() =>
             new MnemonicString(wordCount: GetRandomNumer()).GetValue();
 

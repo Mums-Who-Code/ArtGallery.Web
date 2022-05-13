@@ -2,9 +2,11 @@
 // Copyright (c) MumsWhoCode. All rights reserved.
 // -----------------------------------------------------------------------
 
+using System.Collections;
 using ArtGallery.Web.Api.Models.Foundations.Artists;
 using ArtGallery.Web.Api.Models.Foundations.Artists.Exceptions;
 using Moq;
+using RESTFulSense.Exceptions;
 using Xunit;
 
 namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
@@ -87,6 +89,57 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.apiBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfBadRequestAndLogItAsync()
+        {
+            //given
+            IDictionary randomDictionary = CreateRandomDictionary();
+            IDictionary exceptionData = randomDictionary;
+            string randomMessage = GetRandomMesaage();
+            string responseMessage = randomMessage;
+            var httpResponseMessage = new HttpResponseMessage();
+            Artist someArtist = CreateRandomArtist();
+
+            var httpResponseBadRequestException =
+                new HttpResponseBadRequestException(
+                    httpResponseMessage,
+                    responseMessage);
+
+            httpResponseBadRequestException.AddData(exceptionData);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.PostArtistAsync(It.IsAny<Artist>()))
+                    .ThrowsAsync(httpResponseBadRequestException);
+
+            var invalidArtistException =
+                new InvalidArtistException(
+                    httpResponseBadRequestException,
+                        exceptionData);
+
+            var expeectedArtistDependencyError =
+                new ArtistDependencyValidationException(invalidArtistException);
+
+            //when
+            ValueTask<Artist> addArtistTask =
+                this.artistService.AddArtistAsync(someArtist);
+
+            //then
+            await Assert.ThrowsAsync<ArtistDependencyValidationException>(() =>
+                addArtistTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostArtistAsync(It.IsAny<Artist>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expeectedArtistDependencyError))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }

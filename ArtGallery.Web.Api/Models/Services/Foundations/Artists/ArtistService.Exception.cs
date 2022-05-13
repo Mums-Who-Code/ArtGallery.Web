@@ -41,7 +41,7 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
 
                 throw CreateAndLogCriticalDependencyException(failedArtistDependencyException);
             }
-            catch(HttpResponseException httpResponseException)
+            catch (HttpResponseException httpResponseException)
             {
                 var failedArtistDependencyException =
                     new FailedArtistDependencyException(httpResponseException);
