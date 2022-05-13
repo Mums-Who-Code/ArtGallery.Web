@@ -64,6 +64,21 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
 
                 throw CreateAndLogDependencyException(failedArtistDependencyException);
             }
+            catch (Exception serviceException)
+            {
+                var failedArtistServiceException =
+                    new FailedArtistServiceException(serviceException);
+
+                throw CreateAndLogServiceException(failedArtistServiceException);
+            }
+        }
+
+        private ArtistServiceException CreateAndLogServiceException(Xeption exception)
+        {
+            var artistServiceException = new ArtistServiceException(exception);
+            this.loggingBroker.LogError(artistServiceException);
+
+            return artistServiceException;
         }
 
         private ArtistDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
