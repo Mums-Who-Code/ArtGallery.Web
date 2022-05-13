@@ -73,6 +73,28 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             };
         }
 
+        public static TheoryData DependencyValidationExceptions()
+        {
+            var responseMessage = new HttpResponseMessage();
+            string exceptionMessage = GetRandomMesaage();
+
+            var httpResponseConflictException =
+                new HttpResponseConflictException(
+                    responseMessage: responseMessage,
+                    message: exceptionMessage);
+
+            var httpResponseFailedDependencyException =
+                new HttpResponseFailedDependencyException(
+                    responseMessage: responseMessage,
+                    message: exceptionMessage);
+
+            return new TheoryData<Exception>()
+            {
+                httpResponseConflictException,
+                httpResponseFailedDependencyException
+            };
+        }
+
         private static Dictionary<string, List<string>> CreateRandomDictionary() =>
             new Filler<Dictionary<string, List<string>>>().Create();
 
