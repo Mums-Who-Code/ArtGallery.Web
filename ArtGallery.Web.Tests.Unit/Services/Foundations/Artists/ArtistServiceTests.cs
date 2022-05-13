@@ -39,6 +39,11 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             var httpResponseMessage = new HttpResponseMessage();
             var httpRequestException = new HttpRequestException();
 
+            var httpReponseUrlNotFoundException =
+               new HttpResponseUrlNotFoundException(
+                   httpResponseMessage,
+                   someMessage);
+
             var httpResponseUnauthorizedException =
                 new HttpResponseUnauthorizedException(
                     httpResponseMessage,
@@ -47,6 +52,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             return new TheoryData<Exception>
             {
                 httpRequestException,
+                httpReponseUrlNotFoundException,
                 httpResponseUnauthorizedException
             };
         }
@@ -83,9 +89,15 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
                     responseMessage: responseMessage,
                     message: exceptionMessage);
 
+            var httpResponseFailedDependencyException =
+                new HttpResponseFailedDependencyException(
+                    responseMessage: responseMessage,
+                    message: exceptionMessage);
+
             return new TheoryData<Exception>()
             {
-                httpResponseConflictException
+                httpResponseConflictException,
+                httpResponseFailedDependencyException
             };
         }
 
