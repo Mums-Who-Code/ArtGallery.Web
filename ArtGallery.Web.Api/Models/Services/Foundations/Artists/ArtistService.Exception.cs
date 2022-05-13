@@ -41,6 +41,15 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
 
                 throw CreateAndLogCriticalDependencyException(failedArtistDependencyException);
             }
+            catch (HttpResponseBadRequestException httpResponseBadRequestException)
+            {
+                var invalidArtistException =
+                    new InvalidArtistException(
+                        httpResponseBadRequestException,
+                        httpResponseBadRequestException.Data);
+
+                throw CreateAndLogDependencyValidationException(invalidArtistException);
+            }
             catch (HttpResponseException httpResponseException)
             {
                 var failedArtistDependencyException =
@@ -48,6 +57,15 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.Artists
 
                 throw CreateAndLogDependencyException(failedArtistDependencyException);
             }
+        }
+
+        private ArtistDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var artistDependencyValidationException =
+                new ArtistDependencyValidationException(exception);
+            this.loggingBroker.LogError(artistDependencyValidationException);
+
+            return artistDependencyValidationException;
         }
 
         private ArtistDependencyException CreateAndLogDependencyException(Xeption exception)
