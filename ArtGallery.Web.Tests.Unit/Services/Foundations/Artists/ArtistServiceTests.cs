@@ -40,7 +40,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             var httpRequestException = new HttpRequestException();
 
             var httpReponseUrlNotFoundException =
-               new HttpResponseUrlNotFoundException(
+                new HttpResponseUrlNotFoundException(
                    httpResponseMessage,
                    someMessage);
 
@@ -60,7 +60,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
         public static TheoryData ApiDependencyExceptions()
         {
             var responseMessage = new HttpResponseMessage();
-            String exceptionMessage = GetRandomMesaage();
+            string exceptionMessage = GetRandomMesaage();
 
             var httpResponseException =
                 new HttpResponseException(
@@ -101,9 +101,6 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             };
         }
 
-        private static Dictionary<string, List<string>> CreateRandomDictionary() =>
-            new Filler<Dictionary<string, List<string>>>().Create();
-
         private static string GetRandomMesaage() =>
             new MnemonicString(wordCount: GetRandomNumer()).GetValue();
 
@@ -119,22 +116,28 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
         }
 
         private static string GetRandomEmail() =>
-          new EmailAddresses().GetValue().ToString();
+            new EmailAddresses().GetValue().ToString();
 
         private static SqlException GetSqlException() =>
             (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
 
-        public static Artist CreateRandomArtist() =>
-            CreateArtistFiller().Create();
+        private static DateTimeOffset GetRandomDateTime() =>
+            new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
-        private static Filler<Artist> CreateArtistFiller()
+        public static Artist CreateRandomArtist() =>
+            CreateArtistFiller(dateTime: GetRandomDateTime()).Create();
+
+        private static Dictionary<string, List<string>> CreateRandomDictionary() =>
+            new Filler<Dictionary<string, List<string>>>().Create();
+
+        private static Filler<Artist> CreateArtistFiller(DateTimeOffset dateTime)
         {
             var filler = new Filler<Artist>();
             Guid id = Guid.NewGuid();
 
             filler.Setup()
                 .OnType<Guid>().Use(id)
-                .OnType<DateTimeOffset>().Use(DateTimeOffset.UtcNow)
+                .OnType<DateTimeOffset>().Use(dateTime)
                 .OnProperty(artist => artist.Status).Use(ArtistStatus.Active)
                 .OnProperty(artist => artist.Email).Use(GetRandomEmail());
 

@@ -30,17 +30,17 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             await Assert.ThrowsAsync<ArtistValidationException>(() =>
                 addArtistTask.AsTask());
 
-            this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(
-                    expectedArtistValidationException))),
-                        Times.Once);
-
             this.apiBrokerMock.Verify(broker =>
                 broker.PostArtistAsync(It.IsAny<Artist>()),
                     Times.Never);
 
-            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedArtistValidationException))),
+                        Times.Once);
+           
             this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
 
         [Theory]
@@ -105,17 +105,17 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
             await Assert.ThrowsAsync<ArtistValidationException>(() =>
                 addArtistTask.AsTask());
 
-            this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(
-                    expectedArtistValidationException))),
-                        Times.Once);
-
             this.apiBrokerMock.Verify(broker =>
                 broker.PostArtistAsync(It.IsAny<Artist>()),
                     Times.Never);
 
-            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedArtistValidationException))),
+                        Times.Once);
+            
             this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
