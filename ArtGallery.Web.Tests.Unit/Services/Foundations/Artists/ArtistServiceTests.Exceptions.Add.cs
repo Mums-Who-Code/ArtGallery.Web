@@ -118,7 +118,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
                     httpResponseBadRequestException,
                         exceptionData);
 
-            var expeectedArtistDependencyValidationException =
+            var expectedArtistDependencyValidationException =
                 new ArtistDependencyValidationException(invalidArtistException);
 
             //when
@@ -135,7 +135,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                    expeectedArtistDependencyValidationException))),
+                    expectedArtistDependencyValidationException))),
                         Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();
