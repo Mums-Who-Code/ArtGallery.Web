@@ -9,7 +9,7 @@ namespace ArtGallery.Web.Api.Models.Views.Foundations.ArtistViews.Exceptions
     public class ArtistViewValidationException : Xeption
     {
         public ArtistViewValidationException(Xeption innerException)
-            : base(message: "Student view validation error occurred, please try again.",
+            : base(message: "Artist view validation error occurred, please try again.",
                   innerException)
         { }
     }
