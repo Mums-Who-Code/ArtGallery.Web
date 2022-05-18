@@ -13,6 +13,7 @@ using ArtGallery.Web.Api.Models.Views.Foundations.ArtistViews;
 using KellermanSoftware.CompareNetObjects;
 using Moq;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
 {
@@ -73,6 +74,14 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
 
         private static DateTimeOffset GetRandomDate() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
+        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
+        {
+            return actualException =>
+                actualException.Message == expectedException.Message
+                && actualException.InnerException.Message == expectedException.InnerException.Message
+                && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
+        }
 
         private static ArtistView CreateRandomArtistView() =>
             CreateArtistViewFiller().Create();
