@@ -47,7 +47,6 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
 
             return new Artist
             {
-                // Id = Guid.NewGuid(),
                 Id = artistView.Id,
                 FirstName = artistView.FirstName,
                 LastName = artistView.LastName,
