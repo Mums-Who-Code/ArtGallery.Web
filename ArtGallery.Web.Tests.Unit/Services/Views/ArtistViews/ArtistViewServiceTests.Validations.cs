@@ -66,15 +66,10 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
                 FirstName = invalidText,
                 LastName = invalidText,
                 Email = invalidText,
-                ContactNumber = invalidText,
-                Status = ArtistStatusView.InActive
+                ContactNumber = invalidText
             };
 
             var invalidArtistViewException = new InvalidArtistViewException();
-
-            invalidArtistViewException.AddData(
-               key: nameof(ArtistView.Id),
-               values: "Id is required.");
 
             invalidArtistViewException.AddData(
                 key: nameof(ArtistView.FirstName),

@@ -12,6 +12,13 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
         private void ValidateArtistViewOnAdd(ArtistView artistView)
         {
             ValidateInput(artistView);
+
+            Validate(
+               (Rule: IsInvalid(text: artistView.FirstName), Parameter: nameof(ArtistView.FirstName)),
+               (Rule: IsInvalid(text: artistView.LastName), Parameter: nameof(ArtistView.LastName)),
+               (Rule: IsInvalid(text: artistView.Email), Parameter: nameof(ArtistView.Email)),
+               (Rule: IsInvalid(text: artistView.ContactNumber), Parameter: nameof(ArtistView.ContactNumber))
+            );
         }
 
         private void ValidateInput(ArtistView artistView)
@@ -20,6 +27,29 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
             {
                 throw new NullArtistViewException();
             }
+        }
+
+        private static dynamic IsInvalid(string text) => new
+        {
+            Condition = String.IsNullOrWhiteSpace(text),
+            Message = "Text is required."
+        };
+
+        private void Validate(params (dynamic Rule, string Parameter)[] validations)
+        {
+            var invalidArtistViewException = new InvalidArtistViewException();
+
+            foreach ((dynamic rule, string parameter) in validations)
+            {
+                if (rule.Condition)
+                {
+                    invalidArtistViewException.UpsertDataList(
+                        key: parameter,
+                        value: rule.Message);
+                }
+            }
+
+            invalidArtistViewException.ThrowIfContainsErrors();
         }
     }
 }

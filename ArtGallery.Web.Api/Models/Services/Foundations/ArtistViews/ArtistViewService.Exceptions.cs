@@ -22,6 +22,10 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
             {
                 throw CreateAndLogValidationException(nullArtistViewException);
             }
+            catch (InvalidArtistViewException invalidArtistViewException)
+            {
+                throw CreateAndLogValidationException(invalidArtistViewException);
+            }
         }
 
         private ArtistViewValidationException CreateAndLogValidationException(Xeption exception)

@@ -67,10 +67,10 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
         }
 
         private static string GetRandomFirstName() =>
-           new RealNames(NameStyle.FirstName).GetValue();
+            new RealNames(NameStyle.FirstName).GetValue();
 
         private static string GetRandomLastName() =>
-           new RealNames(NameStyle.LastName).GetValue();
+            new RealNames(NameStyle.LastName).GetValue();
 
         private static DateTimeOffset GetRandomDate() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
@@ -83,13 +83,18 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
                 && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
         }
 
+        private static string GetRandomEmail() =>
+            new EmailAddresses().GetValue().ToString();
+
         private static ArtistView CreateRandomArtistView() =>
             CreateArtistViewFiller().Create();
         private static Filler<ArtistView> CreateArtistViewFiller()
         {
             var filler = new Filler<ArtistView>();
-            filler.Setup().
-                OnType<DateTimeOffset>().Use(GetRandomDate());
+            filler.Setup()
+                .OnType<DateTimeOffset>().Use(GetRandomDate())
+                .OnProperty(artist => artist.Email).Use(GetRandomEmail());
+
             return filler;
         }
     }
