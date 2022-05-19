@@ -11,7 +11,7 @@ using ArtGallery.Web.Api.Models.Views.Foundations.ArtistViews;
 
 namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
 {
-    public class ArtistViewService : IArtistViewService
+    public partial class ArtistViewService : IArtistViewService
     {
         private readonly IArtistService artistService;
         private readonly IUserService userService;
@@ -30,13 +30,15 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<ArtistView> AddArtistViewAsync(ArtistView artistView)
+        public ValueTask<ArtistView> AddArtistViewAsync(ArtistView artistView) =>
+        TryCatch(async () =>
         {
+            ValidateArtistViewOnAdd(artistView);
             Artist artist = MapToArtist(artistView);
-            await this.artistService.AddArtistAsync(artist);
+            Artist addedArtist = await this.artistService.AddArtistAsync(artist);
 
-            return artistView;
-        }
+            return MapToArtistView(addedArtist);
+        });
 
         private Artist MapToArtist(ArtistView artistView)
         {
@@ -45,7 +47,8 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
 
             return new Artist
             {
-                Id = Guid.NewGuid(),
+                // Id = Guid.NewGuid(),
+                Id = artistView.Id,
                 FirstName = artistView.FirstName,
                 LastName = artistView.LastName,
                 Status = ArtistStatus.Active,
@@ -53,6 +56,17 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
                 UpdatedDate = currentDateTime,
                 CreatedBy = currentlyLoggedInUserId,
                 UpdatedBy = currentlyLoggedInUserId,
+            };
+        }
+
+        private ArtistView MapToArtistView(Artist artist)
+        {
+            return new ArtistView
+            {
+                Id = artist.Id,
+                FirstName = artist.FirstName,
+                LastName = artist.LastName,
+                Status = ArtistStatusView.Active,
             };
         }
     }

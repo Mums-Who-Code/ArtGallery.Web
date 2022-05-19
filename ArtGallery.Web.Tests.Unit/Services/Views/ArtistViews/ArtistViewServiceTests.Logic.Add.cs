@@ -27,6 +27,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
 
             var randomArtistView = new ArtistView
             {
+                Id = randomArtistViewProperties.Id,
                 FirstName = randomArtistViewProperties.FirstName,
                 LastName = randomArtistViewProperties.LastName
             };
