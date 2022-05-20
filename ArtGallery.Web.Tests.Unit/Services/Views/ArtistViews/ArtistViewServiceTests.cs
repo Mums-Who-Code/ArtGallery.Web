@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using ArtGallery.Web.Api.Brokers.DateTimes;
 using ArtGallery.Web.Api.Brokers.Loggings;
 using ArtGallery.Web.Api.Models.Foundations.Artists;
+using ArtGallery.Web.Api.Models.Foundations.Artists.Exceptions;
 using ArtGallery.Web.Api.Models.Services.Foundations.Artists;
 using ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews;
 using ArtGallery.Web.Api.Models.Services.Foundations.Users;
@@ -14,6 +15,7 @@ using KellermanSoftware.CompareNetObjects;
 using Moq;
 using Tynamix.ObjectFiller;
 using Xeptions;
+using Xunit;
 
 namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
 {
@@ -59,6 +61,17 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
                 UpdatedDate = auditDates,
                 CreatedBy = auditIds,
                 UpdatedBy = auditIds
+            };
+        }
+
+        public static TheoryData DependencyValidationExceptions()
+        {
+            var innerException = new Xeption();
+
+            return new TheoryData<Exception>
+            {
+                new ArtistValidationException(innerException),
+                new ArtistDependencyValidationException(innerException)
             };
         }
 
