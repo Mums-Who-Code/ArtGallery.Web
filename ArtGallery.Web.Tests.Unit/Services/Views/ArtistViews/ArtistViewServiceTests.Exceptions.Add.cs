@@ -43,10 +43,8 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
                     expectedDependencyValidationException))),
                         Times.Once);
 
-            this.dateTimeBrokerMock.VerifyNoOtherCalls();
-            this.loggingBrokerMock.VerifyNoOtherCalls();
-            this.userServiceMock.VerifyNoOtherCalls();
             this.artistServiceMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }

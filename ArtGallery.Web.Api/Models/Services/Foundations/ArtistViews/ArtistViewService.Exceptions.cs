@@ -2,6 +2,7 @@
 // Copyright (c) MumsWhoCode. All rights reserved.
 // -----------------------------------------------------------------------
 
+using ArtGallery.Web.Api.Models.Foundations.Artists.Exceptions;
 using ArtGallery.Web.Api.Models.Views.Foundations.ArtistViews;
 using ArtGallery.Web.Api.Models.Views.Foundations.ArtistViews.Exceptions;
 using Xeptions;
@@ -26,6 +27,14 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
             {
                 throw CreateAndLogValidationException(invalidArtistViewException);
             }
+            catch (ArtistValidationException artistValidationException)
+            {
+                throw CreateAndLogDependencyValidationException(artistValidationException);
+            }
+            catch (ArtistDependencyValidationException artistDependencyValidationException)
+            {
+                throw CreateAndLogDependencyValidationException(artistDependencyValidationException);
+            }
         }
 
         private ArtistViewValidationException CreateAndLogValidationException(Xeption exception)
@@ -34,6 +43,14 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
             this.loggingBroker.LogError(artistViewValidationException);
 
             return artistViewValidationException;
+        }
+
+        private ArtistViewDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var artistViewDependencyValidationException = new ArtistViewDependencyValidationException(exception.InnerException);
+            this.loggingBroker.LogError(artistViewDependencyValidationException);
+
+            return artistViewDependencyValidationException;
         }
     }
 }
