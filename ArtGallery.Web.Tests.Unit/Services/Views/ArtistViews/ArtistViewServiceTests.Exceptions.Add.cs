@@ -88,7 +88,6 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
         {
             //given
             ArtistView someArtistView = CreateRandomArtistView();
-
             var serviceException = new Exception();
 
             var failedArtistViewServiceException =
