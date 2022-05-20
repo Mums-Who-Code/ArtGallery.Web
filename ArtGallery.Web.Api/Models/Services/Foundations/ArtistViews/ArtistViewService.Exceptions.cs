@@ -35,6 +35,14 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
             {
                 throw CreateAndLogDependencyValidationException(artistDependencyValidationException);
             }
+            catch (ArtistDependencyException artistDependencyException)
+            {
+                throw CreateAndLogDependencyException(artistDependencyException);
+            }
+            catch (ArtistServiceException artistServiceException)
+            {
+                throw CreateAndLogDependencyException(artistServiceException);
+            }
         }
 
         private ArtistViewValidationException CreateAndLogValidationException(Xeption exception)
@@ -51,6 +59,14 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
             this.loggingBroker.LogError(artistViewDependencyValidationException);
 
             return artistViewDependencyValidationException;
+        }
+
+        private ArtistViewDependencyException CreateAndLogDependencyException(Xeption exception)
+        {
+            var artistViewDependencyException = new ArtistViewDependencyException(exception);
+            this.loggingBroker.LogError(artistViewDependencyException);
+
+            return artistViewDependencyException;
         }
     }
 }
