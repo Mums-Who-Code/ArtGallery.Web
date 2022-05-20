@@ -75,6 +75,17 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
             };
         }
 
+        public static TheoryData DependencyExceptions()
+        {
+            var innerException = new Xeption();
+
+            return new TheoryData<Exception>
+            {
+                new ArtistDependencyException(innerException),
+                new ArtistServiceException(innerException)
+            };
+        }
+
         private Expression<Func<Artist, bool>> SameArtistAs(Artist expectedArtist)
         {
             return actualArtist => this.compareLogic.Compare(actualArtist, expectedArtist).AreEqual;
