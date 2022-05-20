@@ -51,10 +51,12 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
                 FirstName = artistView.FirstName,
                 LastName = artistView.LastName,
                 Status = ArtistStatus.Active,
+                Email = artistView.Email,
+                ContactNumber = artistView.ContactNumber,
                 CreatedDate = currentDateTime,
                 UpdatedDate = currentDateTime,
                 CreatedBy = currentlyLoggedInUserId,
-                UpdatedBy = currentlyLoggedInUserId,
+                UpdatedBy = currentlyLoggedInUserId
             };
         }
 
@@ -66,6 +68,8 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
                 FirstName = artist.FirstName,
                 LastName = artist.LastName,
                 Status = ArtistStatusView.Active,
+                Email = artist.Email,
+                ContactNumber = artist.ContactNumber
             };
         }
     }

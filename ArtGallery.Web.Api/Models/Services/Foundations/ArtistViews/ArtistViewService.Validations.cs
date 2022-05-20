@@ -17,7 +17,8 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
                (Rule: IsInvalid(text: artistView.FirstName), Parameter: nameof(ArtistView.FirstName)),
                (Rule: IsInvalid(text: artistView.LastName), Parameter: nameof(ArtistView.LastName)),
                (Rule: IsInvalid(text: artistView.Email), Parameter: nameof(ArtistView.Email)),
-               (Rule: IsInvalid(text: artistView.ContactNumber), Parameter: nameof(ArtistView.ContactNumber))
+               (Rule: IsInvalid(text: artistView.ContactNumber), Parameter: nameof(ArtistView.ContactNumber)),
+               (Rule: IsInvalid(artistView.Status), Parameter: nameof(ArtistView.Status))
             );
         }
 
@@ -33,6 +34,12 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
         {
             Condition = String.IsNullOrWhiteSpace(text),
             Message = "Text is required."
+        };
+
+        private static dynamic IsInvalid(ArtistStatusView status) => new
+        {
+            Condition = status != ArtistStatusView.Active,
+            Message = "Value is invalid."
         };
 
         private void Validate(params (dynamic Rule, string Parameter)[] validations)

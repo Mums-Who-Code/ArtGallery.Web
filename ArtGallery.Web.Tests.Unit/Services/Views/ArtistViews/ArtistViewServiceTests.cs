@@ -52,12 +52,13 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
                 Id = Guid.NewGuid(),
                 FirstName = GetRandomFirstName(),
                 LastName = GetRandomLastName(),
-                DateOfBirth = GetRandomDate(),
                 Status = ArtistStatus.Active,
+                Email = GetRandomEmail(),
+                ContactNumber = GetRandomContactNumber(),
                 CreatedDate = auditDates,
                 UpdatedDate = auditDates,
                 CreatedBy = auditIds,
-                UpdatedBy = auditIds,
+                UpdatedBy = auditIds
             };
         }
 
@@ -72,7 +73,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
         private static string GetRandomLastName() =>
             new RealNames(NameStyle.LastName).GetValue();
 
-        private static DateTimeOffset GetRandomDate() =>
+        private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
         private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
@@ -83,17 +84,25 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
                 && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
         }
 
+        private static string GetRandomContactNumber() =>
+            new LongRange(min: 1000000000, max: 9999999999).GetValue().ToString();
+
         private static string GetRandomEmail() =>
             new EmailAddresses().GetValue().ToString();
 
         private static ArtistView CreateRandomArtistView() =>
-            CreateArtistViewFiller().Create();
-        private static Filler<ArtistView> CreateArtistViewFiller()
+            CreateArtistViewFiller(dateTime: GetRandomDateTime()).Create();
+        private static Filler<ArtistView> CreateArtistViewFiller(DateTimeOffset dateTime)
         {
             var filler = new Filler<ArtistView>();
+            Guid id = Guid.NewGuid();
+
             filler.Setup()
-                .OnType<DateTimeOffset>().Use(GetRandomDate())
-                .OnProperty(artist => artist.Email).Use(GetRandomEmail());
+                .OnType<Guid>().Use(id)
+                .OnType<DateTimeOffset>().Use(dateTime)
+                .OnProperty(artistView => artistView.Status).Use(ArtistStatusView.Active)
+                .OnProperty(artistView => artistView.ContactNumber).Use(GetRandomContactNumber())
+                .OnProperty(artistView => artistView.Email).Use(GetRandomEmail());
 
             return filler;
         }

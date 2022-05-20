@@ -18,7 +18,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
         {
             //given
             Guid currentLoggedInUserId = Guid.NewGuid();
-            DateTimeOffset randomDateTime = GetRandomDate();
+            DateTimeOffset randomDateTime = GetRandomDateTime();
 
             dynamic randomArtistViewProperties =
                 CreateRandomArtistViewProperties(
@@ -29,7 +29,9 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
             {
                 Id = randomArtistViewProperties.Id,
                 FirstName = randomArtistViewProperties.FirstName,
-                LastName = randomArtistViewProperties.LastName
+                LastName = randomArtistViewProperties.LastName,
+                Email = randomArtistViewProperties.Email,
+                ContactNumber = randomArtistViewProperties.ContactNumber
             };
 
             var inputArtistView = randomArtistView;
@@ -41,10 +43,12 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
                 FirstName = randomArtistViewProperties.FirstName,
                 LastName = randomArtistViewProperties.LastName,
                 Status = randomArtistViewProperties.Status,
+                Email = randomArtistViewProperties.Email,
+                ContactNumber = randomArtistViewProperties.ContactNumber,
                 CreatedDate = randomArtistViewProperties.CreatedDate,
                 UpdatedDate = randomArtistViewProperties.UpdatedDate,
                 CreatedBy = randomArtistViewProperties.CreatedBy,
-                UpdatedBy = randomArtistViewProperties.UpdatedBy,
+                UpdatedBy = randomArtistViewProperties.UpdatedBy
             };
 
             Artist expectedInputArtist = randomArtist;
