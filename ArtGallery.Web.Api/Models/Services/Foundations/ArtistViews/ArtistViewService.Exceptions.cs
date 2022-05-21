@@ -45,7 +45,7 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
             }
             catch (Exception serviceException)
             {
-                var failedArtistViewServiceException = 
+                var failedArtistViewServiceException =
                     new FailedArtistViewServiceException(serviceException);
 
                 throw CreateAndLogServiceException(failedArtistViewServiceException);

@@ -61,12 +61,13 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
             string invalidText)
         {
             //given
-            ArtistView invalidArtistView = new ArtistView
+            var invalidArtistView = new ArtistView
             {
                 FirstName = invalidText,
                 LastName = invalidText,
                 Email = invalidText,
-                ContactNumber = invalidText
+                ContactNumber = invalidText,
+                Status = ArtistStatusView.InActive
             };
 
             var invalidArtistViewException = new InvalidArtistViewException();
@@ -86,6 +87,11 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
             invalidArtistViewException.AddData(
                 key: nameof(ArtistView.ContactNumber),
                 values: "Text is required.");
+
+            invalidArtistViewException.AddData(
+                key: nameof(ArtistView.Status),
+                values: "Value is invalid.");
+
 
             var expectedArtistViewValidationException =
                 new ArtistViewValidationException(invalidArtistViewException);

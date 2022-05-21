@@ -66,10 +66,12 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
                 service.AddArtistAsync(It.Is(
                     SameArtistAs(expectedInputArtist))))
                         .ReturnsAsync(persistedArtist);
+
             //when
             ArtistView actualArtistView =
                 await this.artistViewService
                     .AddArtistViewAsync(inputArtistView);
+
             //then
             actualArtistView.Should().BeEquivalentTo(expectedArtistView);
 

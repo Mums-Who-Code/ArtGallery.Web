@@ -2,6 +2,7 @@
 // Copyright (c) MumsWhoCode. All rights reserved.
 // -----------------------------------------------------------------------
 
+using ArtGallery.Web.Api.Models.Foundations.Artists;
 using ArtGallery.Web.Api.Models.Views.Foundations.ArtistViews;
 using ArtGallery.Web.Api.Models.Views.Foundations.ArtistViews.Exceptions;
 using Moq;
@@ -34,15 +35,25 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
             await Assert.ThrowsAsync<ArtistViewDependencyValidationException>(() =>
                 addArtistViewTask.AsTask());
 
+            this.userServiceMock.Verify(service =>
+               service.GetCurrentlyLoggedInUser(),
+                   Times.Once);
+
             this.dateTimeBrokerMock.Verify(service =>
                 service.GetCurrentDateTime(),
                     Times.Once);
+
+            this.artistServiceMock.Verify(service =>
+               service.AddArtistAsync(It.IsAny<Artist>()),
+                   Times.Never);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedDependencyValidationException))),
                         Times.Once);
 
+            this.userServiceMock.VerifyNoOtherCalls();
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.artistServiceMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
@@ -70,16 +81,26 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
             await Assert.ThrowsAsync<ArtistViewDependencyException>(() =>
                 addArtistViewTask.AsTask());
 
+            this.userServiceMock.Verify(service =>
+                service.GetCurrentlyLoggedInUser(),
+                    Times.Once);
+
             this.dateTimeBrokerMock.Verify(service =>
                 service.GetCurrentDateTime(),
                     Times.Once);
+
+            this.artistServiceMock.Verify(service =>
+               service.AddArtistAsync(It.IsAny<Artist>()),
+                   Times.Never);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedDependencyException))),
                         Times.Once);
 
+            this.userServiceMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.artistServiceMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
 
@@ -108,16 +129,26 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
             await Assert.ThrowsAsync<ArtistViewServiceException>(() =>
                 addArtistViewTask.AsTask());
 
+            this.userServiceMock.Verify(service =>
+                service.GetCurrentlyLoggedInUser(),
+                    Times.Once);
+
             this.dateTimeBrokerMock.Verify(service =>
                 service.GetCurrentDateTime(),
                     Times.Once);
+
+            this.artistServiceMock.Verify(service =>
+               service.AddArtistAsync(It.IsAny<Artist>()),
+                   Times.Never);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     artistViewServiceException))),
                         Times.Once);
 
+            this.userServiceMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.artistServiceMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }

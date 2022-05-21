@@ -116,6 +116,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
 
         private static ArtistView CreateRandomArtistView() =>
             CreateArtistViewFiller(dateTime: GetRandomDateTime()).Create();
+
         private static Filler<ArtistView> CreateArtistViewFiller(DateTimeOffset dateTime)
         {
             var filler = new Filler<ArtistView>();

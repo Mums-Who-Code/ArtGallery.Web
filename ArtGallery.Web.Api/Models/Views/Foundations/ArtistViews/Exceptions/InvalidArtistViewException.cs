@@ -9,7 +9,7 @@ namespace ArtGallery.Web.Api.Models.Views.Foundations.ArtistViews.Exceptions
     public class InvalidArtistViewException : Xeption
     {
         public InvalidArtistViewException()
-            : base("Invalid artist view error occurred, fix errors and try again.")
+            : base(message: "Invalid artist view error occurred, fix errors and try again.")
         { }
 
         public InvalidArtistViewException(string parameterName, object parameterValue)
