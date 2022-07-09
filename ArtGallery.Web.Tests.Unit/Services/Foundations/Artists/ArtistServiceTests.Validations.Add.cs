@@ -38,7 +38,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedArtistValidationException))),
                         Times.Once);
-           
+
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
@@ -113,7 +113,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Foundations.Artists
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedArtistValidationException))),
                         Times.Once);
-            
+
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
