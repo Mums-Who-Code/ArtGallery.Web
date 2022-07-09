@@ -62,7 +62,7 @@ namespace ArtGallery.Web.Api.Models.Services.Foundations.ArtistViews
 
         private ArtistViewDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
-            var artistViewDependencyValidationException = new ArtistViewDependencyValidationException(exception.InnerException);
+            var artistViewDependencyValidationException = new ArtistViewDependencyValidationException(exception);
             this.loggingBroker.LogError(artistViewDependencyValidationException);
 
             return artistViewDependencyValidationException;

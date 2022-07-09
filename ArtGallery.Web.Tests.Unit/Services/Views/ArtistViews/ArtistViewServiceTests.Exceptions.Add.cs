@@ -6,6 +6,7 @@ using ArtGallery.Web.Api.Models.Foundations.Artists;
 using ArtGallery.Web.Api.Models.Views.Foundations.ArtistViews;
 using ArtGallery.Web.Api.Models.Views.Foundations.ArtistViews.Exceptions;
 using Moq;
+using Xeptions;
 using Xunit;
 
 namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
@@ -15,13 +16,13 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
         [Theory]
         [MemberData(nameof(DependencyValidationExceptions))]
         public async Task ShouldThrowDependencyValidationExceptionOnAddIfValidationErrorOccuredAndLogItAsync(
-           Exception artistValidationException)
+           Xeption artistValidationException)
         {
             //given
             ArtistView someArtistView = CreateRandomArtistView();
 
             var expectedDependencyValidationException =
-                new ArtistViewDependencyValidationException(artistValidationException.InnerException);
+                new ArtistViewDependencyValidationException(artistValidationException);
 
             this.dateTimeBrokerMock.Setup(service =>
                 service.GetCurrentDateTime())
@@ -61,7 +62,7 @@ namespace ArtGallery.Web.Tests.Unit.Services.Views.ArtistViews
         [Theory]
         [MemberData(nameof(DependencyExceptions))]
         public async Task ShouldThrowDependencyExceptionOnAddIfDependencyErrorOccuredAndLogItAsync(
-            Exception artistServiceDependencyException)
+            Xeption artistServiceDependencyException)
         {
             //given
             ArtistView someArtistView = CreateRandomArtistView();
